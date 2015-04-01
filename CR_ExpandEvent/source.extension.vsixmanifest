@@ -3,7 +3,7 @@
     <Identifier Id="CR_ExpandEvent">
         <Name>'Expand Event' for CodeRush</Name>
         <Author>Rory Becker</Author>
-        <Version>1.0</Version>
+        <Version>1.0.0.1</Version>
         <Description xml:space="preserve">'Expand Event' for CodeRush provides 2 new CodeRush refactorings: 'Expand Event' and 'Compress Event'.</Description>
         <Locale>1033</Locale>
         <Icon>CR-Plug-in.png</Icon>

@@ -59,19 +59,20 @@ namespace CR_ExpandEvent
 		private void ExpandEvent_Execute(Object sender, ApplyContentEventArgs ea)
 		{
 			ElementBuilder Builder = ea.NewElementBuilder();
-			Variable EventField = Builder.BuildVariable("EventHandler", "_" + _EventToExpand.Name);
+			Variable NewEventField = Builder.BuildVariable("EventHandler", "_" + _EventToExpand.Name);
+			NewEventField.Visibility = _EventToExpand.Visibility;
 
 			// Build Event and Add/Remove
 			Event NewEvent = Builder.BuildEvent(_EventToExpand.Name, _EventToExpand.MemberTypeReference);
 			NewEvent.Visibility = _EventToExpand.Visibility;
 			EventAdd NewEventAdd = Builder.AddEventAdd(NewEvent);
-			Builder.AddAssignment(NewEventAdd, EventField.Name, "value", AssignmentOperatorType.PlusEquals);
+			Builder.AddAssignment(NewEventAdd, NewEventField.Name, "value", AssignmentOperatorType.PlusEquals);
 			EventRemove NewEventRemove = Builder.AddEventRemove(NewEvent);
-			Builder.AddAssignment(NewEventRemove, EventField.Name, "value", AssignmentOperatorType.MinusEquals);
+			Builder.AddAssignment(NewEventRemove, NewEventField.Name, "value", AssignmentOperatorType.MinusEquals);
 
 			TextDocument ActiveDoc = CodeRush.Documents.ActiveTextDocument;
 			ActiveDoc.QueueReplace(_EventToExpand, CodeRush.CodeMod.GenerateCode(NewEvent));
-			ActiveDoc.QueueInsert(_EventToExpand.Range.Start, CodeRush.CodeMod.GenerateCode(EventField));
+			ActiveDoc.QueueInsert(_EventToExpand.Range.Start, CodeRush.CodeMod.GenerateCode(NewEventField));
 			ActiveDoc.ApplyQueuedEdits("Expanded Event", true);
 			
 		}
